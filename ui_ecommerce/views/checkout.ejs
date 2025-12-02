@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <h3>Product: <%= product.title %></h3>
+    <p><%= product.description %></p>
+    <p>Price: $<%= product.price %></p>
+    <p><em>(Includes 10% Service Fee of $<%= serviceFee.toFixed(2) %> which is handled internally)</em></p>
+
+    <!-- Stripe Elements Integration (Skeleton) -->
+    <!-- In a production environment, you would use Stripe.js to create a payment method -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // const stripe = Stripe('pk_test_PLACEHOLDER');
+        // const elements = stripe.elements();
+        // ... mount elements ...
+    </script>
+
+    <form action="/charge" method="POST" id="payment-form">
+        <input type="hidden" name="productId" value="<%= product.id %>">
+
+        <div class="form-row">
+            <label for="card-element">
+              Credit or debit card
+            </label>
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+              <input type="text" placeholder="**** **** **** ****" disabled style="padding: 5px; margin-bottom: 10px;">
+            </div>
+        </div>
+
+        <button type="submit">Pay $<%= product.price %></button>
+    </form>
+</body>
+</html>
