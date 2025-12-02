@@ -14,7 +14,7 @@ const questions = [
             { text: "Asia", correct: false},
             { text: "Australia", correct: true},
             { text: "Africa", correct: false},
-            { text: "Artic", correct: false},
+            { text: "Arctic", correct: false},
         ]
     },
     {
@@ -32,7 +32,7 @@ const questions = [
             { text: "Gobi", correct: false},
             { text: "Kalahari", correct: false},
             { text: "Sahara", correct: false},
-            { text: "Antartica", correct: true},
+            { text: "Antarctica", correct: true},
         ]
     }
 ];
@@ -40,11 +40,21 @@ const questions = [
 const questionElement = document.getElementById("question");
 const answerButtons = document.getElementById("answer-btns");
 const nextButton = document.getElementById("next-btn");
+const progressBar = document.getElementById("progress-bar");
 
 let currentQuestionIndex = 0;
 let score = 0;
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 function startQuiz() {
+    shuffle(questions);
     currentQuestionIndex = 0;
     score = 0;
     nextButton.innerHTML = "Next";
@@ -57,7 +67,9 @@ function showQuestion() {
     let questionNo = currentQuestionIndex + 1;
     questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
     
-    currentQuestion.answers.forEach(answer => {
+    progressBar.style.width = ((currentQuestionIndex) / questions.length) * 100 + "%";
+
+    shuffle(currentQuestion.answers).forEach(answer => {
         const button = document.createElement("button");
         button.innerHTML = answer.text;
         button.classList.add("btn");
@@ -96,6 +108,7 @@ function selectAnswer(e){
 
 function showScore(){
     resetState();
+    progressBar.style.width = "100%";
     questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
     nextButton.innerHTML = "Play Again";
     nextButton.style.display = "block";
