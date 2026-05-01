@@ -37,10 +37,10 @@ const questions = [
     }
 ];
 
-const questionElement = document.getElementById("question");
-const answerButtons = document.getElementById("answer-btns");
-const nextButton = document.getElementById("next-btn");
-const progressBar = document.getElementById("progress-bar");
+const questionElement = typeof document !== 'undefined' ? document.getElementById("question") : null;
+const answerButtons = typeof document !== 'undefined' ? document.getElementById("answer-btns") : null;
+const nextButton = typeof document !== 'undefined' ? document.getElementById("next-btn") : null;
+const progressBar = typeof document !== 'undefined' ? document.getElementById("progress-bar") : null;
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -54,6 +54,7 @@ function shuffle(array) {
 }
 
 function startQuiz() {
+    if (typeof questions === 'undefined') return;
     shuffle(questions);
     currentQuestionIndex = 0;
     score = 0;
@@ -123,13 +124,21 @@ function handleNextButton() {
     }
 }
 
-nextButton.addEventListener("click", ()=>{
-    if(currentQuestionIndex < questions.length){
-        handleNextButton();
-    }else{
-        startQuiz();
-    }
-});
+if (nextButton) {
+    nextButton.addEventListener("click", ()=>{
+        if(currentQuestionIndex < questions.length){
+            handleNextButton();
+        }else{
+            startQuiz();
+        }
+    });
+}
 
-startQuiz();
+if (typeof document !== 'undefined') {
+    startQuiz();
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { shuffle };
+}
 
