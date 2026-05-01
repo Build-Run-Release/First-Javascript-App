@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
-const stripe = require('stripe')('sk_test_PLACEHOLDER'); // Replace with real key
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { db, initDb } = require('./db');
 const path = require('path');
 
@@ -77,7 +78,12 @@ app.get('/buy/:id', (req, res) => {
         // Or added to what buyer pays.
         // Let's assume Buyer pays Price. Platform takes 10% of Price. Seller gets 90%.
 
-        res.render('checkout', { user: req.session.user, product: product, serviceFee: serviceFee });
+        res.render('checkout', {
+            user: req.session.user,
+            product: product,
+            serviceFee: serviceFee,
+            stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+        });
     });
 });
 
