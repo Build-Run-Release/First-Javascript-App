@@ -57,7 +57,7 @@ function startQuiz() {
     shuffle(questions);
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.innerHTML = "Next";
+    nextButton.textContent = "Next";
     showQuestion();
 }
 
@@ -65,13 +65,13 @@ function showQuestion() {
     resetState();
     let currentQuestion = questions[currentQuestionIndex];
     let questionNo = currentQuestionIndex + 1;
-    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+    questionElement.textContent = questionNo + ". " + currentQuestion.question;
     
     progressBar.style.width = ((currentQuestionIndex) / questions.length) * 100 + "%";
 
     shuffle(currentQuestion.answers).forEach(answer => {
         const button = document.createElement("button");
-        button.innerHTML = answer.text;
+        button.textContent = answer.text;
         button.classList.add("btn");
         answerButtons.appendChild(button);
         if (answer.correct) {
@@ -109,8 +109,8 @@ function selectAnswer(e){
 function showScore(){
     resetState();
     progressBar.style.width = "100%";
-    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
-    nextButton.innerHTML = "Play Again";
+    questionElement.textContent = `You scored ${score} out of ${questions.length}!`;
+    nextButton.textContent = "Play Again";
     nextButton.style.display = "block";
 }
 
